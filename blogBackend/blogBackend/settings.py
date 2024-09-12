@@ -42,11 +42,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',  # Required for Django allauth and email handling
     'tinymce',
     'rest_framework',
+    'rest_framework_simplejwt',
     'corsheaders',
     'blog',
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -80,6 +84,31 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'blogBackend.wsgi.application'
+
+AUTH_USER_MODEL = 'blog.CustomUser'
+
+
+SITE_ID = 1
+
+
+# Simple JWT settings
+from datetime import timedelta
+
+# JWT SimpleJWT settings
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}
 
 
 # Database

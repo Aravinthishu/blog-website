@@ -32,7 +32,31 @@ class BlogPostAdmin(admin.ModelAdmin):
 
     readonly_fields = ('created_at', 'updated_at')
     filter_horizontal = ('categories',)  # Use horizontal filter widget for categories
+    
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('blog_post', 'user', 'created_at', 'is_active')
+    search_fields = ('user__username', 'content')
+    list_filter = ('is_active', 'created_at')
+    readonly_fields = ('created_at', 'updated_at')
+
+class ReplyAdmin(admin.ModelAdmin):
+    list_display = ('comment', 'user', 'created_at')
+    search_fields = ('user__username', 'content')
+    list_filter = ('created_at',)
+    readonly_fields = ('created_at', 'updated_at')
+
+class CommentLikeAdmin(admin.ModelAdmin):
+    list_display = ('comment', 'user', 'liked_at')
+    search_fields = ('user__username',)
+    list_filter = ('liked_at',)
 
 admin.site.register(BlogPost, BlogPostAdmin)
-admin.site.register(contact)
+admin.site.register(Contact)
+admin.site.register(Comment, CommentAdmin)
+admin.site.register(Reply, ReplyAdmin)
+admin.site.register(CommentLike, CommentLikeAdmin)
+
+@admin.register(CustomUser)
+class CustomUserAdmin(admin.ModelAdmin):
+    pass
 
